@@ -17,7 +17,7 @@ function redraw()
         writeCenter(data.Name, line)
         line = line + 1
     end
-
+    
     writeCenter("Add new", line)
 end
 
@@ -29,16 +29,16 @@ function main()
     local total = #waypoints + 1
     local text = (selected == #waypoints and "Add new") or waypoints[selected+1].Name
     local x, y = term.getSize()
-    term.setCursorPos(x/2 - string.len(text) - 2, selected+2)
+    term.setCursorPos(x/2 - string.len(text)/2 - 1, selected+2)
     write(">")
     while true do
         if prevSelected ~= selected then
             local x, y = term.getSize()
             local text = (selected == #waypoints and "Add new") or waypoints[selected+1].Name
-            term.setCursorPos(x/2 - string.len(text) - 2, selected+2)
+            term.setCursorPos(x/2 - string.len(text)/2 - 1, selected+2)
             write(">")
             local prevText = (prevSelected == #waypoints and "Add new") or waypoints[prevSelected+1].Name
-            term.setCursorPos(x/2 - string.len(prevText) - 2, prevSelected+2)
+            term.setCursorPos(x/2 - string.len(prevText)/2 - 1, prevSelected+2)
             write(" ")
         end
         
@@ -62,6 +62,7 @@ function main()
                         sleep(waypoints[selected + 1].Delay)
                     end
                     rednet.broadcast(waypoints[selected + 1].CID)
+                    redraw()
                 end
             end
         end
@@ -69,6 +70,8 @@ function main()
 end
 
 parallel.waitForAny(function()
-    os.pullEvent("term_resize")
-    redraw()
+    while true do
+        os.pullEvent("term_resize")
+        redraw()
+    end
 end, main)
