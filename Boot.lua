@@ -1,6 +1,6 @@
 function write(text, line)
     local x, y = term.getSize()
-    term.setCursorPos(#text/2 + x, line)
+    term.setCursorPos(string.len(text)/2 + x, line)
     write(text)
 end
 
