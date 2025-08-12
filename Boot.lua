@@ -28,16 +28,17 @@ function main()
     local prevSelected = 0
     local total = #waypoints + 1
     local text = (selected == #waypoints and "Add new") or waypoints[selected+1].Name
-    term.setCursorPos(x/2 - string.len(text) - 2, #waypoints+1)
+    local x, y = term.getSize()
+    term.setCursorPos(x/2 - string.len(text) - 2, selected+2)
     write(">")
     while true do
         if prevSelected ~= selected then
             local x, y = term.getSize()
             local text = (selected == #waypoints and "Add new") or waypoints[selected+1].Name
-            term.setCursorPos(x/2 - string.len(text) - 2, #waypoints+1)
+            term.setCursorPos(x/2 - string.len(text) - 2, selected+2)
             write(">")
             local prevText = (prevSelected == #waypoints and "Add new") or waypoints[prevSelected+1].Name
-            term.setCursorPos(x/2 - string.len(prevText) - 2, #waypoints+1)
+            term.setCursorPos(x/2 - string.len(prevText) - 2, prevSelected+2)
             write(" ")
         end
         
